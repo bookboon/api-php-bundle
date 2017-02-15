@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "boobkoon/api": "^2.2"
+        "bookboon/api": "^2.2"
     },
     "autoload": {
         "psr-4": {
