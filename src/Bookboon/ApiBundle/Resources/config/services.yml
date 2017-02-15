@@ -1,0 +1,13 @@
+services:
+    bookboonapi.cache.redis:
+        class: Bookboon\Api\Cache\RedisCache
+        public: false
+        arguments: []
+
+    bookboonapi:
+        class: Bookboon\Api\Bookboon
+        public: true
+        factory: ['Bookboon\ApiBundle\Service\ApiFactory', create]
+        arguments:
+           - "@bookboonapi.config"
+           - "@bookboonapi.cache"
