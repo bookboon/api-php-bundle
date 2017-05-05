@@ -73,6 +73,23 @@ class ConfigurationHolder
     }
 
     /**
+     * @return string
+     */
+    public function getClientId()
+    {
+        return isset($this->_config['client_id']) ? $this->_config['client_id'] : null;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return isset($this->_config['redirect']) ? $this->_config['redirect'] : null;
+    }
+
+    /**
      * @return int
      */
     public function getPremiumLevel()
