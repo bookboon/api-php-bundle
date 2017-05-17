@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "bookboon/api": "^2.2"
+        "bookboon/api": "dev-feature/responseObj"
     },
     "autoload": {
         "psr-4": {
