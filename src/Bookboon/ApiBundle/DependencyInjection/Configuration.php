@@ -2,6 +2,7 @@
 
 namespace Bookboon\ApiBundle\DependencyInjection;
 
+use Bookboon\Api\Cache\RedisCache;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -23,9 +24,9 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('branding')->end()
             ->scalarNode('rotation')->end()
             ->scalarNode('currency')->end()
-            ->scalarNode('client_id')->defaultNull()->end()
+            ->scalarNode('impersonator_id')->defaultNull()->end()
             ->scalarNode('redirect')->defaultNull()->end()
-            ->scalarNode('cache_service')->defaultValue("bookboonapi.cache.redis")->end()
+            ->scalarNode('cache_service')->defaultValue(RedisCache::class)->end()
             ->arrayNode('languages')->isRequired()->prototype('scalar')->end()->end()
             ->arrayNode('scopes')->isRequired()->prototype('scalar')->end()->end()
             ->integerNode('premiumlevel')->end()

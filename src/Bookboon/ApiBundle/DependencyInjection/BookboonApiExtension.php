@@ -2,6 +2,7 @@
 
 namespace Bookboon\ApiBundle\DependencyInjection;
 
+use Bookboon\Api\Cache\Cache;
 use Bookboon\ApiBundle\Configuration\ApiConfiguration;
 use Bookboon\ApiBundle\Helper\ConfigurationHolder;
 use Symfony\Component\Config\FileLocator;
@@ -24,11 +25,11 @@ class BookboonApiExtension extends Extension
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-        $container->register("bookboonapi.config", ConfigurationHolder::class)
+        $container->register(ConfigurationHolder::class, ConfigurationHolder::class)
             ->addArgument($config)
             ->setPublic(false);
 
-        $container->setAlias("bookboonapi.cache", $config['cache_service']);
+        $container->setAlias(Cache::class, $config['cache_service']);
 
         $loader = new YamlFileLoader(
             $container,

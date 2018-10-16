@@ -75,9 +75,9 @@ class ConfigurationHolder
     /**
      * @return string
      */
-    public function getClientId()
+    public function getImpersonatorId()
     {
-        return isset($this->_config['client_id']) ? $this->_config['client_id'] : null;
+        return isset($this->_config['impersonator_id']) ? $this->_config['impersonator_id'] : null;
     }
 
 
