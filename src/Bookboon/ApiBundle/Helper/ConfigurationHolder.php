@@ -61,7 +61,7 @@ class ConfigurationHolder
      */
     public function getRotation()
     {
-        return isset($this->_config['rotation']) ? $this->_config['branding'] : null;
+        return isset($this->_config['rotation']) ? $this->_config['rotation'] : null;
     }
 
     /**
