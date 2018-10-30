@@ -27,7 +27,9 @@ class ApiFactory
                 $config->getScopes(),
                 $cache,
                 "",
-                null
+                null,
+                $config->getOverrideAuthUri(),
+                $config->getOverrideApiUri()
             )
         );
 
