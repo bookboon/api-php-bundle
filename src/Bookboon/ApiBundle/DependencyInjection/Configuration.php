@@ -29,7 +29,9 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('cache_service')->defaultValue(RedisCache::class)->end()
             ->arrayNode('languages')->isRequired()->prototype('scalar')->end()->end()
             ->arrayNode('scopes')->isRequired()->prototype('scalar')->end()->end()
-            ->integerNode('premiumlevel')->end()
+            ->integerNode('premium_level')->end()
+            ->scalarNode('override_api_uri')->defaultNull()->end()
+            ->scalarNode('override_auth_uri')->defaultNull()->end()
             ;
 
         return $treeBuilder;

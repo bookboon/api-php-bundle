@@ -90,10 +90,26 @@ class ConfigurationHolder
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getPremiumLevel()
     {
-        return isset($this->_config['premiumlevel']) ? $this->_config['premiumlevel'] : null;
+        return isset($this->_config['premium_level']) ? $this->_config['premium_level'] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOverrideApiUri()
+    {
+        return isset($this->_config['override_api_uri']) ? $this->_config['override_api_uri'] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOverrideAuthUri()
+    {
+        return isset($this->_config['override_auth_uri']) ? $this->_config['override_auth_uri'] : null;
     }
 }
