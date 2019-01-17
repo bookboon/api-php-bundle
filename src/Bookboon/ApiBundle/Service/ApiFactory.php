@@ -44,7 +44,9 @@ class ApiFactory
 
         if ($token === false) {
             $token = $bookboon->getClient()->requestAccessToken([], OauthGrants::CLIENT_CREDENTIALS);
-            $cache->save("bookboonapi.{$config->getId()}", $token);
+
+            $ttl = $token->getExpires() - time();
+            $cache->save("bookboonapi.{$config->getId()}", $token, $ttl);
         }
 
         return $token;
