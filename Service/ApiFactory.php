@@ -2,22 +2,21 @@
 
 namespace Bookboon\ApiBundle\Service;
 
-
 use Bookboon\Api\Bookboon;
-use Bookboon\Api\Cache\Cache;
 use Bookboon\Api\Client\Headers;
 use Bookboon\Api\Client\Oauth\OauthGrants;
 use Bookboon\Api\Client\OauthClient;
 use Bookboon\ApiBundle\Helper\ConfigurationHolder;
+use Psr\SimpleCache\CacheInterface;
 
 class ApiFactory
 {
     /**
      * @param ConfigurationHolder $config
-     * @param Cache $cache
+     * @param CacheInterface $cache
      * @return Bookboon
      */
-    public static function create(ConfigurationHolder $config, Cache $cache)
+    public static function create(ConfigurationHolder $config, CacheInterface $cache)
     {
         $bookboon = new Bookboon(
             new OauthClient(
@@ -26,7 +25,7 @@ class ApiFactory
                 self::headersFromConfig($config),
                 $config->getScopes(),
                 $cache,
-                "",
+                '',
                 null,
                 $config->getOverrideAuthUri(),
                 $config->getOverrideApiUri()
@@ -38,15 +37,15 @@ class ApiFactory
         return $bookboon;
     }
 
-    public static function credentialFactory(Bookboon $bookboon, Cache $cache, ConfigurationHolder $config)
+    public static function credentialFactory(Bookboon $bookboon, CacheInterface $cache, ConfigurationHolder $config)
     {
         $token = $cache->get("bookboonapi.{$config->getId()}");
 
-        if ($token === false) {
+        if ($token === null) {
             $token = $bookboon->getClient()->requestAccessToken([], OauthGrants::CLIENT_CREDENTIALS);
 
             $ttl = $token->getExpires() - time();
-            $cache->save("bookboonapi.{$config->getId()}", $token, $ttl);
+            $cache->set("bookboonapi.{$config->getId()}", $token, $ttl);
         }
 
         return $token;
@@ -87,10 +86,10 @@ class ApiFactory
      */
     private static function createAcceptLanguageString($languages)
     {
-        $acceptLanguage = "";
-        for ($i=0; count($languages) > $i; $i++) {
+        $acceptLanguage = '';
+        for ($i=0, $iMax = count($languages); $iMax > $i; $i++) {
             /* TODO: logic might need to be updated if $i > 10 */
-            $acceptLanguage .= $i == 0 ? $languages[$i] . ',' : $languages[$i] . ';q=' . (1 - $i/10) . ',';
+            $acceptLanguage .= $i === 0 ? $languages[$i] . ',' : $languages[$i] . ';q=' . (1 - $i/10) . ',';
         }
         return rtrim($acceptLanguage,',');
     }

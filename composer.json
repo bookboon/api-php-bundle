@@ -17,11 +17,12 @@
         "php": ">=5.6",
         "symfony/dependency-injection": "~4.0",
         "symfony/config": "~4.0",
-        "bookboon/api": "~3.14"
+        "bookboon/api": "~4.0",
+        "symfony/cache": "^4.2"
     },
     "autoload": {
         "psr-4": {
-            "": "src"
+            "Bookboon\\ApiBundle\\": ""
         }
     }
 }
