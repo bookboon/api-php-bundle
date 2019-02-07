@@ -1,15 +1,23 @@
 services:
-    bookboon.cache:
-        public: true
-        class: Symfony\Component\Cache\Simple\RedisCache
+  bookboon.cache.redis:
+    class: Redis
+    calls:
+      - method: connect
         arguments:
-          - '@default_redis_provider'
-          - 'api'
-          - 1800
+          - '%env(REDIS_HOST)%'
+          - '6379'
 
-    Bookboon\Api\Bookboon:
-        public: true
-        factory: ['Bookboon\ApiBundle\Service\ApiFactory', create]
-        arguments:
-           - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
-           - '@bookboon.cache'
+  bookboon.cache:
+    public: true
+    class: Symfony\Component\Cache\Simple\RedisCache
+    arguments:
+      - '@bookboon.cache.redis'
+      - 'api'
+      - 1800
+
+  Bookboon\Api\Bookboon:
+    public: true
+    factory: ['Bookboon\ApiBundle\Service\ApiFactory', create]
+    arguments:
+      - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
+      - '@bookboon.cache'
