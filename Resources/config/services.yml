@@ -11,5 +11,8 @@ services:
         public: true
         factory: ['Bookboon\ApiBundle\Service\ApiFactory', create]
         arguments:
-           - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
-           - '@bookboon.cache'
+          - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
+          - '@bookboon.cache'
+          - '@monolog.logger.api'
+        tags:
+          - { name: monolog.logger, channel: api }
