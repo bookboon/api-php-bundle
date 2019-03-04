@@ -7,6 +7,7 @@ use Bookboon\Api\Client\Headers;
 use Bookboon\Api\Client\Oauth\OauthGrants;
 use Bookboon\Api\Client\OauthClient;
 use Bookboon\ApiBundle\Helper\ConfigurationHolder;
+use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
 class ApiFactory
@@ -14,9 +15,11 @@ class ApiFactory
     /**
      * @param ConfigurationHolder $config
      * @param CacheInterface $cache
+     * @param LoggerInterface $logger
      * @return Bookboon
+     * @throws \Bookboon\Api\Exception\UsageException
      */
-    public static function create(ConfigurationHolder $config, CacheInterface $cache)
+    public static function create(ConfigurationHolder $config, CacheInterface $cache, LoggerInterface $logger)
     {
         $bookboon = new Bookboon(
             new OauthClient(
@@ -28,7 +31,8 @@ class ApiFactory
                 '',
                 null,
                 $config->getOverrideAuthUri(),
-                $config->getOverrideApiUri()
+                $config->getOverrideApiUri(),
+                $logger
             )
         );
 
