@@ -15,10 +15,11 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('bookboonapi');
+        $treeBuilder = new TreeBuilder('bookboonapi');
 
-        $rootNode->children()
+        $treeBuilder
+            ->getRootNode()
+            ->children()
             ->scalarNode('id')->isRequired()->end()
             ->scalarNode('secret')->isRequired()->end()
             ->scalarNode('branding')->end()
