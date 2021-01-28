@@ -9,6 +9,7 @@ services:
 
     Bookboon\Api\Bookboon:
         public: true
+        lazy: true
         factory: ['Bookboon\ApiBundle\Service\ApiFactory', create]
         arguments:
           - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
