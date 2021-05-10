@@ -7,6 +7,10 @@ services:
           - 'api'
           - 1800
 
+    bookboon.handlerstack:
+        class: GuzzleHttp\HandlerStack
+        factory: ['GuzzleHttp\HandlerStack', 'create']
+
     Bookboon\Api\Bookboon:
         public: true
         lazy: true
@@ -15,5 +19,6 @@ services:
           - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
           - '@bookboon.cache'
           - '@monolog.logger.api'
+          - '@bookboon.handlerstack'
         tags:
           - { name: monolog.logger, channel: api }
