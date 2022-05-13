@@ -11,14 +11,27 @@ services:
         class: GuzzleHttp\HandlerStack
         factory: ['GuzzleHttp\HandlerStack', 'create']
 
-    Bookboon\Api\Bookboon:
-        public: true
-        lazy: true
-        factory: ['Bookboon\ApiBundle\Service\ApiFactory', create]
-        arguments:
-          - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
-          - '@bookboon.cache'
-          - '@monolog.logger.api'
-          - '@bookboon.handlerstack'
-        tags:
-          - { name: monolog.logger, channel: api }
+    Bookboon\ApiBundle\Client\OauthClient:
+      public: true
+      lazy: true
+      factory: [ 'Bookboon\ApiBundle\Service\ApiFactory', createOauth ]
+      arguments:
+        - '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
+        - '@bookboon.cache'
+        - '@monolog.logger.api'
+        - '@bookboon.handlerstack'
+      tags:
+        - { name: monolog.logger, channel: api }
+
+    Bookboon\ApiBundle\Client\RawClient:
+      public: true
+      autowire: true
+      bind:
+        GuzzleHttp\HandlerStack: '@jsonldclient.handlerstack'
+
+    Bookboon\ApiBundle\Helper\GuzzleDecorator:
+      decorates: jsonldclient.handlerstack
+      factory: ['Bookboon\ApiBundle\Helper\GuzzleDecorator', 'decorate']
+      bind:
+        GuzzleHttp\HandlerStack: '@.inner'
+        Bookboon\ApiBundle\Helper\ConfigurationHolder: '@Bookboon\ApiBundle\Helper\ConfigurationHolder'

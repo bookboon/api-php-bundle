@@ -29,8 +29,6 @@ class BookboonApiExtension extends Extension
             ->addArgument($config)
             ->setPublic(false);
 
-        $container->setAlias(Cache::class, $config['cache_service']);
-
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../Resources/config')
