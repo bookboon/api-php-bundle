@@ -2,17 +2,11 @@
 
 namespace Bookboon\ApiBundle\DependencyInjection;
 
-use Bookboon\ApiBundle\Cache\NullCache;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * Generates the configuration tree builder.
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('bookboonapi');
@@ -27,13 +21,11 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('currency')->end()
             ->scalarNode('impersonator_id')->defaultNull()->end()
             ->scalarNode('redirect')->defaultNull()->end()
-            ->scalarNode('cache_service')->defaultValue(NullCache::class)->end()
             ->arrayNode('languages')->isRequired()->prototype('scalar')->end()->end()
             ->arrayNode('scopes')->isRequired()->prototype('scalar')->end()->end()
             ->integerNode('premium_level')->end()
             ->scalarNode('override_api_uri')->defaultNull()->end()
             ->scalarNode('override_auth_uri')->defaultNull()->end()
-            ->scalarNode('client_service')->defaultNull()->end()
             ;
 
         return $treeBuilder;

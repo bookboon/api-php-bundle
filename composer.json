@@ -16,9 +16,11 @@
     "require": {
         "php": ">=7.4",
         "symfony/dependency-injection": "^4.0|^5.0",
+        "symfony/http-kernel": "^4.0|^5.0",
         "symfony/config": "^4.0|^5.0",
         "symfony/cache": "^4.0|^5.0",
-        "bookboon/api-models-php": "@dev",
+        "bookboon/jsonld-client": "^2.0",
+        "bookboon/api-models-php": "^1.1",
         "bookboon/oauth2-client-php": "^1.0"
     },
     "require-dev": {

@@ -2,8 +2,6 @@
 
 namespace Bookboon\ApiBundle\DependencyInjection;
 
-use Bookboon\Api\Cache\Cache;
-use Bookboon\ApiBundle\Configuration\ApiConfiguration;
 use Bookboon\ApiBundle\Helper\ConfigurationHolder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,7 +10,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class BookboonApiExtension extends Extension
 {
-
     /**
      * Loads a specific configuration.
      *
@@ -23,7 +20,12 @@ class BookboonApiExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+        $holder = $this->getConfiguration($configs, $container);
+        if (!$holder) {
+            throw new \InvalidArgumentException("nulled config");
+        }
+
+        $config = $this->processConfiguration($holder, $configs);
 
         $container->register(ConfigurationHolder::class, ConfigurationHolder::class)
             ->addArgument($config)

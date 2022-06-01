@@ -9,26 +9,32 @@ use Psr\Http\Message\RequestInterface;
 
 class GuzzleDecorator
 {
-
     public static function decorate(HandlerStack $stack, ConfigurationHolder $config): HandlerStack
     {
         $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($config) {
-            return $request
-                ->withHeader(Headers::HEADER_LANGUAGE, self::createAcceptLanguageString($config->getLanguages()))
-                ->withHeader(Headers::HEADER_BRANDING, $config->getBranding())
-                ->withHeader(Headers::HEADER_ROTATION, $config->getRotation())
-                ->withHeader(Headers::HEADER_CURRENCY, $config->getCurrency())
-                ->withHeader(Headers::HEADER_PREMIUM, $config->getPremiumLevel());
+            $requestOut = $request
+                ->withHeader(Headers::HEADER_LANGUAGE, self::createAcceptLanguageString($config->getLanguages()));
+
+            if (null !== $branding = $config->getBranding()) {
+                $requestOut = $requestOut->withHeader(Headers::HEADER_BRANDING, $branding);
+            }
+            if (null !== $rotation = $config->getRotation()) {
+                $requestOut = $requestOut->withHeader(Headers::HEADER_ROTATION, $rotation);
+            }
+            if (null !== $currency = $config->getCurrency()) {
+                $requestOut = $requestOut->withHeader(Headers::HEADER_CURRENCY, $currency);
+            }
+            if (null !== $premiumLevel = $config->getPremiumLevel()) {
+                $requestOut = $requestOut->withHeader(Headers::HEADER_PREMIUM, $premiumLevel);
+            }
+
+            return $requestOut;
         }));
 
         return $stack;
     }
 
-    /**
-     * @param $languages
-     * @return string
-     */
-    private static function createAcceptLanguageString($languages)
+    private static function createAcceptLanguageString(array $languages) : string
     {
         $acceptLanguage = '';
         for ($i = 0, $iMax = count($languages); $iMax > $i; $i++) {

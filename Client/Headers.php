@@ -14,8 +14,7 @@ class Headers implements ArrayAccess
     const HEADER_LANGUAGE = 'Accept-Language';
     const HEADER_XFF = 'X-Forwarded-For';
 
-    /** @var array */
-    private $headers = [];
+    private array $headers = [];
 
     public function __construct(array $headers = [])
     {
@@ -26,35 +25,16 @@ class Headers implements ArrayAccess
         $this->set(static::HEADER_XFF, $this->getRemoteAddress() ?? '');
     }
 
-    /**
-     * Set or override header.
-     *
-     * @param string $header
-     * @param string $value
-     * @return void
-     */
     public function set(string $header, string $value) : void
     {
         $this->headers[$header] = $value;
     }
 
-    /**
-     * Get specific header.
-     *
-     * @param string $header
-     *
-     * @return string|null false if header is not set or string value of header
-     */
     public function get(string $header) : ?string
     {
         return $this->headers[$header] ?? null;
     }
 
-    /**
-     * Get all headers in CURL format.
-     *
-     * @return array
-     */
     public function getAll() : array
     {
         $headers = [];
@@ -65,9 +45,6 @@ class Headers implements ArrayAccess
         return $headers;
     }
 
-    /**
-     * @return array
-     */
     public function getHeadersArray() : array
     {
         return $this->headers;

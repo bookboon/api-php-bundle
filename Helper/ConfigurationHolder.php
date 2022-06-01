@@ -5,111 +5,70 @@ namespace Bookboon\ApiBundle\Helper;
 
 class ConfigurationHolder
 {
-    private $_config;
+    private array $_config;
 
-    /**
-     * ConfigurationHolder constructor.
-     * @param array $config
-     */
     public function __construct(array $config)
     {
         $this->_config = $config;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
-        return $this->_config['id'];
+        return $this->_config['id'] ?? '';
     }
 
-    /**
-     * @return string
-     */
-    public function getSecret()
+    public function getSecret(): string
     {
-        return $this->_config['secret'];
+        return $this->_config['secret'] ?? '';
     }
 
-    /**
-     * @return array
-     */
-    public function getLanguages()
+    public function getLanguages(): array
     {
-        return $this->_config['languages'];
+        return $this->_config['languages'] ?? [];
     }
 
-    /**
-     * @return array
-     */
-    public function getScopes()
+    public function getScopes(): array
     {
-        return $this->_config['scopes'];
+        return $this->_config['scopes'] ?? [];
     }
 
-    /**
-     * @return string
-     */
-    public function getBranding()
+    public function getBranding(): ?string
     {
-        return isset($this->_config['branding']) ? $this->_config['branding'] : null;
+        return $this->_config['branding'] ?? null;
     }
 
-    /**
-     * @return string
-     */
-    public function getRotation()
+    public function getRotation(): ?string
     {
-        return isset($this->_config['rotation']) ? $this->_config['rotation'] : null;
+        return $this->_config['rotation'] ?? null;
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrency()
+    public function getCurrency(): ?string
     {
-        return isset($this->_config['currency']) ? $this->_config['currency'] : null;
+        return $this->_config['currency'] ?? null;
     }
 
-    /**
-     * @return string
-     */
-    public function getImpersonatorId()
+    public function getImpersonatorId(): ?string
     {
-        return isset($this->_config['impersonator_id']) ? $this->_config['impersonator_id'] : null;
+        return $this->_config['impersonator_id'] ?? null;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getRedirectUrl()
+    public function getRedirectUrl(): ?string
     {
-        return isset($this->_config['redirect']) ? $this->_config['redirect'] : null;
+        return $this->_config['redirect'] ?? null;
     }
 
-    /**
-     * @return integer
-     */
-    public function getPremiumLevel()
+    public function getPremiumLevel(): ?string
     {
-        return isset($this->_config['premium_level']) ? $this->_config['premium_level'] : null;
+        return $this->_config['premium_level'] ?? null;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getOverrideApiUri()
+    public function getOverrideApiUri(): ?string
     {
-        return isset($this->_config['override_api_uri']) ? $this->_config['override_api_uri'] : null;
+        return $this->_config['override_api_uri'] ?? null;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getOverrideAuthUri()
+    public function getOverrideAuthUri(): ?string
     {
-        return isset($this->_config['override_auth_uri']) ? $this->_config['override_auth_uri'] : null;
+        return $this->_config['override_auth_uri'] ?? null;
     }
 }

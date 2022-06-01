@@ -13,57 +13,17 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
-/**
- * Class BookboonOauthClient
- * @package Bookboon\OauthClient\Client
- */
-class OauthClient implements OauthInterface
+class AccessTokenClient
 {
+    protected string $_apiUri;
+    private ?AccessTokenInterface $accessToken;
+    protected ?string $act;
+    protected BookboonProvider $provider;
+    protected array $requestOptions = [];
+    protected string $apiId;
+    protected Headers $headers;
+    protected ?CacheInterface $cache;
 
-    const C_VERSION = '2.2';
-
-    /** @var string  */
-    protected $_apiUri;
-
-    /** @var AccessTokenInterface|null */
-    private $accessToken;
-
-    /** @var string|null */
-    protected $act;
-
-    /** @var BookboonProvider */
-    protected $provider;
-
-    /** @var array  */
-    protected $requestOptions = [];
-
-    /** @var string */
-    protected $apiId;
-
-    /** @var string */
-    protected $apiSecret;
-
-    /** @var Headers */
-    protected $headers;
-
-    /** @var CacheInterface|null */
-    protected $cache;
-
-    /**
-     * ClientCommon constructor.
-     * @param string $apiId
-     * @param string $apiSecret
-     * @param Headers $headers
-     * @param array $scopes
-     * @param CacheInterface|null $cache
-     * @param string|null $redirectUri
-     * @param string|null $appUserId
-     * @param string|null $authServiceUri
-     * @param string|null $apiUri
-     * @param LoggerInterface|null $logger
-     * @param array $clientOptions
-     * @throws UsageException
-     */
     public function __construct(
         string $apiId,
         string $apiSecret,
@@ -151,12 +111,6 @@ class OauthClient implements OauthInterface
         return $this->accessToken;
     }
 
-
-    /**
-     * @param AccessTokenInterface $accessToken
-     * @return AccessTokenInterface
-     * @throws IdentityProviderException
-     */
     public function refreshAccessToken(AccessTokenInterface $accessToken) : AccessTokenInterface
     {
         $this->accessToken = $this->provider->getAccessToken('refresh_token', [
@@ -166,20 +120,11 @@ class OauthClient implements OauthInterface
         return $accessToken;
     }
 
-    /**
-     * @return string
-     */
     public function generateState(): string
     {
         return $this->provider->generateRandomState();
     }
 
-    /**
-     * @param string $stateParameter
-     * @param string $stateSession
-     * @return boolean
-     * @throws ApiInvalidStateException
-     */
     public function isCorrectState(string $stateParameter, string $stateSession) : bool
     {
         if (empty($stateParameter) || ($stateParameter !== $stateSession)) {
@@ -189,10 +134,6 @@ class OauthClient implements OauthInterface
         return true;
     }
 
-    /**
-     * @param array $options
-     * @return string
-     */
     public function getAuthorizationUrl(array $options = []): string
     {
         $provider = $this->provider;
@@ -204,12 +145,6 @@ class OauthClient implements OauthInterface
         return $provider->getAuthorizationUrl($options);
     }
 
-
-    /**
-     * @param string|null $uri
-     * @return string
-     * @throws \Bookboon\ApiBundle\Exception\UsageException
-     */
     protected function parseUriOrDefault(?string $uri) : string
     {
         $protocol = ClientConstants::API_PROTOCOL;

@@ -2,10 +2,12 @@
 
 namespace Bookboon\ApiBundle\Service;
 
+use Bookboon\ApiBundle\Client\Headers;
 use Bookboon\OauthClient\OauthGrants;
-use Bookboon\ApiBundle\Client\OauthClient;
+use Bookboon\ApiBundle\Client\AccessTokenClient;
 use Bookboon\ApiBundle\Helper\ConfigurationHolder;
 use GuzzleHttp\HandlerStack;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -15,12 +17,12 @@ class ApiFactory
         ConfigurationHolder $config,
         CacheInterface      $cache,
         LoggerInterface     $logger,
-        HandlerStack        $stack): OauthClient
-    {
-        return new OauthClient(
+        HandlerStack        $stack
+    ) : AccessTokenClient {
+        return new AccessTokenClient(
             $config->getId(),
             $config->getSecret(),
-            new \Bookboon\ApiBundle\Client\Headers(),
+            new Headers(),
             $config->getScopes(),
             $cache,
             '',
@@ -32,8 +34,11 @@ class ApiFactory
         );
     }
 
-    public static function credentialFactory(OauthClient $oauth, CacheInterface $cache, ConfigurationHolder $config)
-    {
+    public static function credentialFactory(
+        AccessTokenClient $oauth,
+        CacheInterface $cache,
+        ConfigurationHolder $config
+    ) : AccessTokenInterface {
         $token = $cache->get("bookboonapi.{$config->getId()}");
 
         if ($token === null) {

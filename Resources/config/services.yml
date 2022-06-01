@@ -11,7 +11,7 @@ services:
         class: GuzzleHttp\HandlerStack
         factory: ['GuzzleHttp\HandlerStack', 'create']
 
-    Bookboon\ApiBundle\Client\OauthClient:
+    Bookboon\ApiBundle\Client\AccessTokenClient:
       public: true
       lazy: true
       factory: [ 'Bookboon\ApiBundle\Service\ApiFactory', createOauth ]

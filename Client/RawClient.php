@@ -10,33 +10,17 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\RequestOptions;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class RawClient
 {
     const CACHE_KEY = "_raw_client_";
-    /**
-     * @var MappingCollection
-     */
-    private $_mappings;
-    /**
-     * @var ClientInterface
-     */
-    private $_client;
-    /**
-     * @var Serializer
-     */
-    private $_serializer;
-    /**
-     * @var CacheInterface
-     */
-    private $cache;
 
-    /**
-     * @var AccessTokenInterface|null
-     */
-    private $accessToken;
+    private MappingCollection $_mappings;
+    private ClientInterface $_client;
+    private SerializerInterface $_serializer;
+    private CacheInterface $cache;
+    private ?AccessTokenInterface $accessToken;
 
     public function __construct(
         MappingCollection   $mappings,
