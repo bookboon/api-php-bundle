@@ -25,8 +25,6 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('languages')->isRequired()->prototype('scalar')->end()->end()
             ->arrayNode('scopes')->isRequired()->prototype('scalar')->end()->end()
             ->integerNode('premium_level')->end()
-            ->scalarNode('override_api_uri')->defaultNull()->setDeprecated()->end()
-            ->scalarNode('override_auth_uri')->defaultNull()->setDeprecated()->end()
             ;
 
         return $treeBuilder;
