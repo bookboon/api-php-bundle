@@ -24,9 +24,9 @@ class AccessTokenClient
         string $apiId,
         string $apiSecret,
         array $scopes,
-        string $authServiceUri,
         string $redirectUri,
         ?string $appUserId = null,
+        ?string $authServiceUri = null,
         ?LoggerInterface $logger = null,
         array $clientOptions = []
     ) {
