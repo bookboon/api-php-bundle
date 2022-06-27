@@ -22,9 +22,9 @@ class ApiFactory
             $config->getId(),
             $config->getSecret(),
             $config->getScopes(),
-            $config->getAuthUri(),
             '',
             null,
+            $config->getOverrideAuthUri(),
             $logger,
             ['handler' => $stack]
         );
