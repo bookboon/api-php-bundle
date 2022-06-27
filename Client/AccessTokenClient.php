@@ -11,30 +11,23 @@ use GuzzleHttp\TransferStats;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\Log\LoggerInterface;
-use Psr\SimpleCache\CacheInterface;
 
 class AccessTokenClient
 {
-    protected string $_apiUri;
     private ?AccessTokenInterface $accessToken;
     protected ?string $act;
     protected BookboonProvider $provider;
     protected array $requestOptions = [];
     protected string $apiId;
-    protected Headers $headers;
-    protected ?CacheInterface $cache;
 
     public function __construct(
         string $apiId,
         string $apiSecret,
-        Headers $headers,
         array $scopes,
-        CacheInterface $cache = null,
-        ?string $redirectUri = null,
+        string $authServiceUri,
+        string $redirectUri,
         ?string $appUserId = null,
-        ?string $authServiceUri = null,
-        ?string $apiUri = null,
-        LoggerInterface $logger = null,
+        ?LoggerInterface $logger = null,
         array $clientOptions = []
     ) {
         if (empty($apiId)) {
@@ -75,11 +68,7 @@ class AccessTokenClient
         $this->provider = new BookboonProvider($clientOptions);
 
         $this->apiId = $apiId;
-        $this->cache = $cache;
-        $this->headers = $headers;
         $this->act = $appUserId;
-
-        $this->_apiUri = $this->parseUriOrDefault($apiUri);
     }
 
     /**
@@ -143,28 +132,6 @@ class AccessTokenClient
         }
 
         return $provider->getAuthorizationUrl($options);
-    }
-
-    protected function parseUriOrDefault(?string $uri) : string
-    {
-        $protocol = ClientConstants::API_PROTOCOL;
-        $host = ClientConstants::API_HOST;
-        $path = ClientConstants::API_PATH;
-
-        if (!empty($uri)) {
-            $parts = explode('://', $uri);
-            $protocol = $parts[0];
-            $host = $parts[1];
-            if (strpos($host, '/') !== false) {
-                throw new UsageException('URI must not contain forward slashes');
-            }
-        }
-
-        if ($protocol !== 'http' && $protocol !== 'https') {
-            throw new UsageException('Invalid protocol specified in URI');
-        }
-
-        return "${protocol}://${host}${path}";
     }
 
     public function getAct(): ?string {

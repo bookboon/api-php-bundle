@@ -17,5 +17,5 @@ class ClientConstants
     const API_HOST = 'bookboon.com';
     const API_PATH = '/api';
 
-    const VERSION = 'Bookboon-PHP/3.3';
+    const VERSION = 'Bookboon-PHP/4.0';
 }

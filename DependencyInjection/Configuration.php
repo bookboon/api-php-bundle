@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('id')->isRequired()->end()
             ->scalarNode('secret')->isRequired()->end()
+            ->scalarNode('auth_uri')->isRequired()->end()
             ->scalarNode('branding')->end()
             ->scalarNode('rotation')->end()
             ->scalarNode('currency')->end()
@@ -24,8 +25,6 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('languages')->isRequired()->prototype('scalar')->end()->end()
             ->arrayNode('scopes')->isRequired()->prototype('scalar')->end()->end()
             ->integerNode('premium_level')->end()
-            ->scalarNode('override_api_uri')->defaultNull()->end()
-            ->scalarNode('override_auth_uri')->defaultNull()->end()
             ;
 
         return $treeBuilder;
