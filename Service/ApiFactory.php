@@ -2,7 +2,6 @@
 
 namespace Bookboon\ApiBundle\Service;
 
-use Bookboon\ApiBundle\Client\Headers;
 use Bookboon\OauthClient\OauthGrants;
 use Bookboon\ApiBundle\Client\AccessTokenClient;
 use Bookboon\ApiBundle\Helper\ConfigurationHolder;
@@ -22,13 +21,10 @@ class ApiFactory
         return new AccessTokenClient(
             $config->getId(),
             $config->getSecret(),
-            new Headers(),
             $config->getScopes(),
-            $cache,
+            $config->getAuthUri(),
             '',
             null,
-            $config->getOverrideAuthUri(),
-            $config->getOverrideApiUri(),
             $logger,
             ['handler' => $stack]
         );

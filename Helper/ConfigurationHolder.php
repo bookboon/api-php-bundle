@@ -62,13 +62,8 @@ class ConfigurationHolder
         return $this->_config['premium_level'] ?? null;
     }
 
-    public function getOverrideApiUri(): ?string
+    public function getAuthUri(): string
     {
-        return $this->_config['override_api_uri'] ?? null;
-    }
-
-    public function getOverrideAuthUri(): ?string
-    {
-        return $this->_config['override_auth_uri'] ?? null;
+        return $this->_config['auth_uri'] ?? '';
     }
 }
