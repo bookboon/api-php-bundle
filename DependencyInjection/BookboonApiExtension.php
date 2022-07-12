@@ -39,12 +39,12 @@ class BookboonApiExtension extends Extension
         $loader->load('services.yml');
     }
 
-    public function getAlias()
+    public function getAlias() : string
     {
         return 'bookboonapi';
     }
 
-    public function getXsdValidationBasePath()
+    public function getXsdValidationBasePath() : string
     {
         return 'http://bookboon.com/schema/dic/' . $this->getAlias();
     }
