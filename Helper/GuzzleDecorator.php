@@ -12,24 +12,26 @@ class GuzzleDecorator
     public static function decorate(HandlerStack $stack, ConfigurationHolder $config): HandlerStack
     {
         $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($config) {
-            $requestOut = $request
-                ->withHeader(Headers::HEADER_LANGUAGE, self::createAcceptLanguageString($config->getLanguages()));
-
-            if (null !== $branding = $config->getBranding()) {
-                $requestOut = $requestOut->withHeader(Headers::HEADER_BRANDING, $branding);
-            }
-            if (null !== $rotation = $config->getRotation()) {
-                $requestOut = $requestOut->withHeader(Headers::HEADER_ROTATION, $rotation);
-            }
-            if (null !== $currency = $config->getCurrency()) {
-                $requestOut = $requestOut->withHeader(Headers::HEADER_CURRENCY, $currency);
-            }
-            if (null !== $premiumLevel = $config->getPremiumLevel()) {
-                $requestOut = $requestOut->withHeader(Headers::HEADER_PREMIUM, $premiumLevel);
+            if (!$request->hasHeader(Headers::HEADER_LANGUAGE)) {
+                $request = $request
+                    ->withHeader(Headers::HEADER_LANGUAGE, self::createAcceptLanguageString($config->getLanguages()));
             }
 
-            return $requestOut;
-        }));
+            if (!$request->hasHeader(Headers::HEADER_BRANDING) && null !== $branding = $config->getBranding()) {
+                $request = $request->withHeader(Headers::HEADER_BRANDING, $branding);
+            }
+            if (!$request->hasHeader(Headers::HEADER_ROTATION) && null !== $rotation = $config->getRotation()) {
+                $request = $request->withHeader(Headers::HEADER_ROTATION, $rotation);
+            }
+            if (!$request->hasHeader(Headers::HEADER_CURRENCY) && null !== $currency = $config->getCurrency()) {
+                $request = $request->withHeader(Headers::HEADER_CURRENCY, $currency);
+            }
+            if (!$request->hasHeader(Headers::HEADER_PREMIUM) && null !== $premiumLevel = $config->getPremiumLevel()) {
+                $request = $request->withHeader(Headers::HEADER_PREMIUM, $premiumLevel);
+            }
+
+            return $request;
+        }), 'bookboon-api');
 
         return $stack;
     }
