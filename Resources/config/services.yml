@@ -30,6 +30,7 @@ services:
         GuzzleHttp\HandlerStack: '@jsonldclient.handlerstack'
 
     Bookboon\ApiBundle\Helper\GuzzleDecorator:
+      class: GuzzleHttp\HandlerStack
       decorates: jsonldclient.handlerstack
       factory: ['Bookboon\ApiBundle\Helper\GuzzleDecorator', 'decorate']
       bind:
