@@ -100,6 +100,7 @@ class Headers implements ArrayAccess
      * The return value will be casted to boolean if non-boolean was returned.
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->headers[strtolower($offset)]);
@@ -114,6 +115,7 @@ class Headers implements ArrayAccess
      * @return mixed Can return all value types.
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->headers[strtolower($offset)] ?? null;
@@ -131,6 +133,7 @@ class Headers implements ArrayAccess
      * @return void
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (is_string($offset) && $offset !== '') {
@@ -147,6 +150,7 @@ class Headers implements ArrayAccess
      * @return void
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->headers[strtolower($offset)]);
