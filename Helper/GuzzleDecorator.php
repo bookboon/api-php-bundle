@@ -6,12 +6,16 @@ use Bookboon\ApiBundle\Client\Headers;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class GuzzleDecorator
 {
-    public static function decorate(HandlerStack $stack, ConfigurationHolder $config): HandlerStack
-    {
-        $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($config) {
+    public static function decorate(
+        HandlerStack $stack,
+        ConfigurationHolder $config,
+        RequestStack $requestStack
+    ): HandlerStack {
+        $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($config, $requestStack) {
             if (!$request->hasHeader(Headers::HEADER_LANGUAGE)) {
                 $request = $request
                     ->withHeader(Headers::HEADER_LANGUAGE, self::createAcceptLanguageString($config->getLanguages()));
@@ -28,6 +32,11 @@ class GuzzleDecorator
             }
             if (!$request->hasHeader(Headers::HEADER_PREMIUM) && null !== $premiumLevel = $config->getPremiumLevel()) {
                 $request = $request->withHeader(Headers::HEADER_PREMIUM, $premiumLevel);
+            }
+
+            // Api-go and others rely on knowing the current >user< IP for tracking geolocation
+            if (null !== $ip = $requestStack->getMainRequest()?->getClientIp()) {
+                return $request->withHeader(Headers::HEADER_XFF, $ip);
             }
 
             return $request;
