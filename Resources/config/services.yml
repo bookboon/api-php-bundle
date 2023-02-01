@@ -36,3 +36,4 @@ services:
       bind:
         GuzzleHttp\HandlerStack: '@.inner'
         Bookboon\ApiBundle\Helper\ConfigurationHolder: '@Bookboon\ApiBundle\Helper\ConfigurationHolder'
+        Symfony\Component\HttpFoundation\RequestStack: '@request_stack'
