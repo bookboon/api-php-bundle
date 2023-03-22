@@ -133,7 +133,7 @@ class RawClient
                 $options[RequestOptions::HEADERS] = [];
             }
 
-            $options[RequestOptions::HEADERS]['Authorization'] = 'Bearer: ' . $this->accessToken->getToken();
+            $options[RequestOptions::HEADERS]['Authorization'] = 'Bearer ' . $this->accessToken->getToken();
         }
 
         return $this->_client->request($method, $url, $options);
