@@ -57,6 +57,10 @@ class ConfigurationHolder
         return $this->_config['redirect'] ?? null;
     }
 
+    /**
+     * @return string|null
+     * @deprecated
+     */
     public function getPremiumLevel(): ?string
     {
         return $this->_config['premium_level'] ?? null;
